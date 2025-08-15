@@ -12,10 +12,10 @@ CLONE_DIR="${USER_HOME}/homelab"
 
 echo "[bootstrap] cloning private repo (ssh) -> ${CLONE_DIR}"
 if [ -d "${CLONE_DIR}" ]; then
-    echo "[bootstrap] ${CLONE_DIR} already exists. Resetting local changes and pulling latest..."
-    (cd "${CLONE_DIR}" && git reset --hard && git clean -fd && git pull)
-else
-    git clone "${PRIVATE_REPO_SSH}" "${CLONE_DIR}"
+    echo "[bootstrap] ${CLONE_DIR} already exists. Removing for fresh clone..."
+    rm -rf "${CLONE_DIR}"
 fi
+git clone "${PRIVATE_REPO_SSH}" "${CLONE_DIR}"
+
 
 echo "[bootstrap] Done. Now ssh into your server and run:"
