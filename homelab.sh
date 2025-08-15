@@ -28,5 +28,8 @@ rsync -av --exclude '.git' "${TMP_DIR}/" "${CLONE_DIR}/"
 # Remove temporary clone
 rm -rf "${TMP_DIR}"
 
+# Ensure install.sh is executable
+chmod +x "${CLONE_DIR}/install.sh"
+
 echo "[bootstrap] Done. Now run:"
 echo "  cd ${CLONE_DIR} && sudo ./install.sh"
