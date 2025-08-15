@@ -1,4 +1,6 @@
+#!/usr/bin/env bash
 set -euo pipefail
+
 PRIVATE_REPO_SSH="git@github.com:alinios/homelab-main.git"
 
 # Detect the real user if running with sudo
@@ -9,14 +11,21 @@ else
 fi
 
 CLONE_DIR="${USER_HOME}/homelab"
+TMP_DIR="${USER_HOME}/homelab_tmp"
 
-echo "[bootstrap] cloning private repo (ssh) -> ${CLONE_DIR}"
-if [ -d "${CLONE_DIR}" ]; then
-    echo "[bootstrap] ${CLONE_DIR} already exists. Resetting local changes and pulling latest..."
-    (cd "${CLONE_DIR}" && git reset --hard && git clean -fd && git pull)
-else
-    git clone "${PRIVATE_REPO_SSH}" "${CLONE_DIR}"
-fi
+echo "[bootstrap] updating private repo -> ${CLONE_DIR}"
 
+# Remove old temporary folder if exists
+rm -rf "${TMP_DIR}"
 
-echo "[bootstrap] Done. Now ssh into your server and run:"
+# Clone fresh into temporary folder
+git clone "${PRIVATE_REPO_SSH}" "${TMP_DIR}"
+
+# Sync files to actual folder, overwrite only files from repo, leave others untouched
+rsync -av --exclude '.git' --delete "${TMP_DIR}/" "${CLONE_DIR}/"
+
+# Remove temporary clone
+rm -rf "${TMP_DIR}"
+
+echo "[bootstrap] Done. Now run:"
+echo "  cd ${CLONE_DIR} && sudo ./install.sh"
