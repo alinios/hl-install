@@ -21,8 +21,9 @@ rm -rf "${TMP_DIR}"
 # Clone fresh into temporary folder
 git clone "${PRIVATE_REPO_SSH}" "${TMP_DIR}"
 
-# Sync files to actual folder, overwrite only files from repo, leave others untouched
-rsync -av --exclude '.git' --delete "${TMP_DIR}/" "${CLONE_DIR}/"
+# Sync files to actual folder, overwrite/update files from repo,
+# add new files, leave container-generated files intact
+rsync -av --exclude '.git' "${TMP_DIR}/" "${CLONE_DIR}/"
 
 # Remove temporary clone
 rm -rf "${TMP_DIR}"
