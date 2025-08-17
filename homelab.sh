@@ -31,7 +31,7 @@ rsync -av --exclude '.git' "${TMP_DIR}/" "${CLONE_DIR}/"
 rm -rf "${TMP_DIR}"
 
 # Ensure *.sh are executable
-chmod +x "${CLONE_DIR}/*.sh"
+chmod +x "${CLONE_DIR}/install.sh"
 
 echo "[bootstrap] Running install.sh now..."
 # Run install.sh as sudo
