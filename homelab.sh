@@ -34,6 +34,7 @@ rm -rf "${TMP_DIR}"
 chmod +x "${CLONE_DIR}/install.sh"
 
 echo "[bootstrap] Running install.sh now..."
+cd "${CLONE_DIR}"
 # Run install.sh as sudo
 sudo "${CLONE_DIR}/install.sh"
 
